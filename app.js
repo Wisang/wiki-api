@@ -32,6 +32,23 @@ app.get('/articles', function(req, res) {
   });
 });
 
+app.post('/articles', function(req, res) {
+  // console.log(req.body.title);
+  // console.log(req.body.content);
+  const newPost = new Article({
+    title: req.body.title,
+    content: req.body.content
+  });
+
+  newPost.save(function(err) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(newPost);
+    }
+  });
+});
+
 app.listen(3000, function() {
   console.log("Listening on port 3000");
 });
