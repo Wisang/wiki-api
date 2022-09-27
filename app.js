@@ -28,13 +28,10 @@ app.get('/articles', function(req, res) {
     } else {
       res.send(foundArticles);
     }
-
   });
 });
 
 app.post('/articles', function(req, res) {
-  // console.log(req.body.title);
-  // console.log(req.body.content);
   const newPost = new Article({
     title: req.body.title,
     content: req.body.content
@@ -45,6 +42,16 @@ app.post('/articles', function(req, res) {
       res.send(err);
     } else {
       res.send(newPost);
+    }
+  });
+});
+
+app.delete('/articles', function(req, res) {
+  Article.deleteMany(function(err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send("successfully deleted all the articles");
     }
   });
 });
