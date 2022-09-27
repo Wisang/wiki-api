@@ -55,6 +55,13 @@ app.route('/articles')
     });
   });
 
+// for specific article
+
+app.route("route")
+  .get(function(req, res) {
+    console.log('test');
+  })
+
 app.listen(3000, function() {
   console.log("Listening on port 3000");
 });
