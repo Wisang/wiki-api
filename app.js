@@ -21,40 +21,39 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-app.get('/articles', function(req, res) {
-  Article.find(function(err, foundArticles) {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(foundArticles);
-    }
-  });
-});
+app.route('/articles')
+  .get(function(req, res) {
+    Article.find(function(err, foundArticles) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(foundArticles);
+      }
+    });
+  })
+  .post(function(req, res) {
+    const newPost = new Article({
+      title: req.body.title,
+      content: req.body.content
+    });
 
-app.post('/articles', function(req, res) {
-  const newPost = new Article({
-    title: req.body.title,
-    content: req.body.content
+    newPost.save(function(err) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(newPost);
+      }
+    });
+  })
+  .delete(function(req, res) {
+    Article.deleteMany(function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("successfully deleted all the articles");
+      }
+    });
   });
-
-  newPost.save(function(err) {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(newPost);
-    }
-  });
-});
-
-app.delete('/articles', function(req, res) {
-  Article.deleteMany(function(err) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send("successfully deleted all the articles");
-    }
-  });
-});
 
 app.listen(3000, function() {
   console.log("Listening on port 3000");
