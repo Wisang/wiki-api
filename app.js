@@ -91,6 +91,25 @@ app.route("/articles/:articleTitle")
         }
       }
     );
+  })
+
+  .patch(function(req,res){
+    Article.findOneAndUpdate(
+      {
+        title: req.params.articleTitle
+      },
+      {
+        $set: req.body
+      },
+      function(err) {
+        if (err) {
+          res.send(err);
+        }
+        else {
+          res.send("successfully patched");
+        }
+      }
+    );
   });
 
 app.listen(3000, function() {
