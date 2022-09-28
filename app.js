@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const ejs = require('ejs');
 const app = express();
+const _ = require('lodash');
 
 
 mongoose.connect("mongodb://localhost:27017/wikiDB");
@@ -57,10 +58,18 @@ app.route('/articles')
 
 // for specific article
 
-app.route("route")
+app.route("/articles/:articleTitle")
   .get(function(req, res) {
-    console.log('test');
-  })
+    Article.findOne({
+      title: req.params.articleTitle
+    }, function(err, foundArticle) {
+      if (foundArticle) {
+        res.send(foundArticle);
+      } else {
+        res.send("no article found");
+      }
+    });
+  });
 
 app.listen(3000, function() {
   console.log("Listening on port 3000");
