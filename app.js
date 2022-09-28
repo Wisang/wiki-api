@@ -69,6 +69,28 @@ app.route("/articles/:articleTitle")
         res.send("no article found");
       }
     });
+  })
+
+  .put(function(req, res) {
+    Article.findOneAndUpdate(
+      {
+        title: req.params.articleTitle
+      },
+      {
+        title: req.body.title,
+        content: req.body.content
+      },
+      {
+        overwrite: false
+      },
+      function(err) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send("successfully updated");
+        }
+      }
+    );
   });
 
 app.listen(3000, function() {
